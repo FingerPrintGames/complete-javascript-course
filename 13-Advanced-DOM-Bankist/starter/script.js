@@ -137,3 +137,71 @@ message.style.height =
 
 //Don't do this
 // logo.className = `Kevin`;
+
+///////////////////////////////////////
+// Events and Event Handlers
+
+// const alertH1 = function (event) {
+//   alert(`addEventListener: Great! You are reading the heading.`);
+//   //Use remove event listener if you only want to listen for event once.
+//   //Doesn't have to be inside event listener (can be on a timer for instance)
+//   h1.removeEventListener(`mouseenter`, alertH1);
+// };
+
+// const h1 = document.querySelector(`h1`);
+// h1.addEventListener(`mouseenter`, alertH1);
+
+// //On Event Property
+// //Old school way of listening for events
+// // h1.onmouseenter = function (event) {
+// //   alert(`addEventListener: Great! You are reading the heading.`);
+// // };
+
+///////////////////////////////////////
+// Bubbling and Capturing
+
+//REWATCH BUBBLING VIDEO FOR GOOD REFERENCES
+//Capturing Phase: event travels down the DOM tree from document to it's target.
+//Bubbling Phase: event travels back up the DOM tree.
+
+///////////////////////////////////////
+// Event Propigation
+
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
+console.log(randomColor());
+
+const link = document.querySelector(`.nav__link`);
+const links = document.querySelector(`.nav__links`);
+const nav = document.querySelector(`.nav`);
+
+link.addEventListener(`click`, function (event) {
+  this.style.backgroundColor = randomColor();
+  console.log(event.target, event.currentTarget);
+
+  //Stop propigation
+  //Prevents event from bubbling up to its parents
+  //Not good practice to use in most cases
+  event.stopPropagation();
+});
+
+links.addEventListener(`click`, function (event) {
+  this.style.backgroundColor = randomColor();
+  console.log(event.target, event.currentTarget);
+});
+
+nav.addEventListener(`click`, function (event) {
+  this.style.backgroundColor = randomColor();
+  console.log(event.target, event.currentTarget);
+});
+
+//Events happen on all elements when bubbling up the DOM tree, but are only execute on elements with the same listener like above.
+
+//event.target = points to the element where the click originated.
+//event.currentTarget = points to the event listener of the current element.
+//currentTarget === `this` keyword
+
+//Add a `true` boolean value to the 3rd parameter of .addEventListener to set it to trigger during the capturing phase.
